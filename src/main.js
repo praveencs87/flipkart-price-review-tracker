@@ -1,3 +1,4 @@
+import { armKillSwitch, disarmKillSwitch } from './utils/timeoutManager.js';
 import { Actor } from 'apify';
 import { CheerioCrawler, log } from 'crawlee';
 
@@ -115,7 +116,9 @@ try {
     log.info(`Starting Flipkart crawler for ${productUrls.length} products...`);
     
     await crawler.addRequests(productUrls);
+    armKillSwitch(crawler);
     await crawler.run();
+    disarmKillSwitch();
 
     log.info(`🎉 Finished! Extracted data for ${totalProductsExtracted} products.`);
 } catch (error) {
